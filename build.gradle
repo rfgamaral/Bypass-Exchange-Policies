@@ -1,0 +1,27 @@
+buildscript {
+    apply from: 'config.gradle'
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:${BUILD.plugin.gradleVersion}"
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

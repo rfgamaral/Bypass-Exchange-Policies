@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="application_name" translatable="false">Bypass Exchange Policies</string>
+
+    <string name="xposed_description">Bypass Exchange security policies for Microsoft Outlook and Gmail.</string>
+
+</resources>

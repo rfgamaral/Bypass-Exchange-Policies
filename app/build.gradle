@@ -1,0 +1,102 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.application'
+
+android {
+    buildToolsVersion BUILD.android.buildToolsVersion
+
+    compileSdkVersion BUILD.android.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility BUILD.compile.sourceCompatibility
+        targetCompatibility BUILD.compile.targetCompatibility
+    }
+
+    defaultConfig {
+        applicationId PRODUCT.applicationId
+        versionName PRODUCT.versionName
+
+        minSdkVersion BUILD.android.minSdkVersion
+        targetSdkVersion BUILD.android.targetSdkVersion
+
+        resConfig 'en'
+    }
+
+    aaptOptions {
+        cruncherEnabled = false
+    }
+
+    lintOptions {
+        abortOnError true
+        xmlReport false
+
+        lintConfig file("${project.rootDir}/config/lint/lint.xml")
+        htmlOutput file("${project.buildDir}/reports/lint/lint.html")
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(SIGNING.release.storeFile)
+            storePassword System.getenv('ANDROID_XPOSED_STORE_PASSWORD')
+            keyAlias SIGNING.release.keyAlias
+            keyPassword System.getenv('ANDROID_XPOSED_KEY_PASSWORD')
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix '.dev'
+            versionNameSuffix "-${getGitHeadHash()}"
+
+            minifyEnabled false
+            shrinkResources false
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
+        }
+    }
+
+    applicationVariants.all { v ->
+        v.mergedFlavor.versionCode = buildVariantVersionCode(v.versionName, v.buildType.name.equals('release'))
+
+        v.outputs.each { o ->
+            o.outputFile = new File(o.outputFile.parent, o.outputFile.name.replace('app', APK.archiveBaseName))
+        }
+    }
+}
+
+dependencies {
+    provided "de.robv.android.xposed:api:${BUILD.library.xposedApiVersion}"
+}
+
+int buildVariantVersionCode(versionName, isReleaseBuildType) {
+    if (isReleaseBuildType) {
+        def (major, minor, patch) = versionName.tokenize('.')*.toInteger()
+        return (major * 10000) + (minor * 100) + patch
+    } else {
+        def projectDate = new SimpleDateFormat('yyyyMMdd').parse(APK.projectStartDate)
+        return Math.round((new Date().getTime() - projectDate.getTime()) / 1000)
+    }
+}
+
+String getGitHeadHash(shortSize = 8) {
+    return executeShell("git rev-parse --short=${shortSize} HEAD")
+}
+
+String executeShell(command) {
+    def process = command.execute([], project.rootDir)
+
+    process.waitFor()
+
+    if (process.exitValue() != 0) {
+        throw new RuntimeException(process.getErrorStream().text)
+    }
+
+    return process.text.trim()
+}

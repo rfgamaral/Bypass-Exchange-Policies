@@ -1,0 +1,40 @@
+ext {
+    APK = [
+        archiveBaseName: 'BypassExchangePolicies',
+        projectStartDate: '20160627'
+    ]
+
+    BUILD = [
+        android: [
+            buildToolsVersion: '24',
+            compileSdkVersion: 24,
+            minSdkVersion: 21,
+            targetSdkVersion: 24
+        ],
+
+        compile: [
+            sourceCompatibility: JavaVersion.VERSION_1_7,
+            targetCompatibility: JavaVersion.VERSION_1_7
+        ],
+
+        plugin: [
+            gradleVersion: '2.1.2'
+        ],
+
+        library: [
+            xposedApiVersion: '82'
+        ]
+    ]
+
+    PRODUCT = [
+        applicationId: 'info.xposed.bypassexchangepolicies',
+        versionName: '1.0.0'
+    ]
+
+    SIGNING = [
+        release : [
+            storeFile: "${System.properties['user.home']}/.android/keystore/xposed.jks",
+            keyAlias: 'XposedModuleKey'
+        ]
+    ]
+}

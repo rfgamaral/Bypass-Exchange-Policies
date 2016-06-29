@@ -1,0 +1,35 @@
+# Folder view configuration files
+.DS_Store
+Desktop.ini
+
+# Thumbnail cache files
+._*
+Thumbs.db
+
+# Built application files
+*.apk
+*.ap_
+
+# Files for the Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Local configuration file
+local.properties
+
+# Gradle build system files
+.gradle/
+build/
+
+# Reports output files
+reports/
+
+# IntelliJ IDEA project files
+*.iml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/copyright
+.idea/dictionaries
+.idea/libraries

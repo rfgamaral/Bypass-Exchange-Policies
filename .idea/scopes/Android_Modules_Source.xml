@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Android Modules Source" pattern="file[*]:src//*" />
+</component>
