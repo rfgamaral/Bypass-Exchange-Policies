@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -39,6 +40,12 @@ public final class BypassGmailPolicy {
     private static final String MAX_EMAIL_LOOKBACK_FIELD = "s";
     private static final String MAX_CALENDAR_LOOKBACK_FIELD = "t";
     private static final String PASSWORD_RECOVERY_ENABLED_FIELD = "u";
+
+    private static final String SECURITY_POLICY_CLASS = "com.android.email.SecurityPolicy";
+    private static final String IS_ACTIVE_METHOD = "a";
+    private static final String GET_INACTIVE_REASONS_METHOD = "b";
+    private static final String SET_ACTIVE_POLICIES_METHOD = "c";
+    private static final String IS_ACTIVE_ADMIN_METHOD = "e";
 
     public static void initializeTweak(final XC_LoadPackage.LoadPackageParam lpparam) {
         findAndHookMethod(
@@ -105,6 +112,36 @@ public final class BypassGmailPolicy {
                 }
 
             }
+        );
+
+        findAndHookMethod(
+            SECURITY_POLICY_CLASS,
+            lpparam.classLoader,
+            IS_ACTIVE_METHOD,
+            POLICY_CLASS,
+            XC_MethodReplacement.returnConstant(true)
+        );
+
+        findAndHookMethod(
+            SECURITY_POLICY_CLASS,
+            lpparam.classLoader,
+            GET_INACTIVE_REASONS_METHOD,
+            POLICY_CLASS,
+            XC_MethodReplacement.returnConstant(0)
+        );
+
+        findAndHookMethod(
+            SECURITY_POLICY_CLASS,
+            lpparam.classLoader,
+            SET_ACTIVE_POLICIES_METHOD,
+            XC_MethodReplacement.DO_NOTHING
+        );
+
+        findAndHookMethod(
+            SECURITY_POLICY_CLASS,
+            lpparam.classLoader,
+            IS_ACTIVE_ADMIN_METHOD,
+            XC_MethodReplacement.returnConstant(true)
         );
     }
 
