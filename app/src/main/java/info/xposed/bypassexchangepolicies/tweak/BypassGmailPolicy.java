@@ -18,6 +18,8 @@ public final class BypassGmailPolicy {
     private static final String SECURITY_REQUIRED_DIALOG_CLASS = "awh";
     private static final String ON_CREATE_DIALOG_METHOD = "onCreateDialog";
 
+    private static final String ACCOUNT_CLASS = "com.android.emailcommon.provider.Account";
+
     private static final String POLICY_CLASS = "com.android.emailcommon.provider.Policy";
     private static final String NORMALIZE_METHOD = "d";
     private static final String PASSWORD_MODE_FIELD = "b";
@@ -46,6 +48,10 @@ public final class BypassGmailPolicy {
     private static final String GET_INACTIVE_REASONS_METHOD = "b";
     private static final String SET_ACTIVE_POLICIES_METHOD = "c";
     private static final String IS_ACTIVE_ADMIN_METHOD = "e";
+
+    private static final String EMAIL_NOTIFICATION_CONTROLLER_CLASS = "aqh";
+    private static final String SHOW_SECURITY_CHANGED_NOTIFICATION_METHOD = "c";
+    private static final String SHOW_SECURITY_NEEDED_NOTIFICATION_METHOD = "b";
 
     public static void initializeTweak(final XC_LoadPackage.LoadPackageParam lpparam) {
         findAndHookMethod(
@@ -142,6 +148,22 @@ public final class BypassGmailPolicy {
             lpparam.classLoader,
             IS_ACTIVE_ADMIN_METHOD,
             XC_MethodReplacement.returnConstant(true)
+        );
+
+        findAndHookMethod(
+            EMAIL_NOTIFICATION_CONTROLLER_CLASS,
+            lpparam.classLoader,
+            SHOW_SECURITY_NEEDED_NOTIFICATION_METHOD,
+            ACCOUNT_CLASS,
+            XC_MethodReplacement.DO_NOTHING
+        );
+
+        findAndHookMethod(
+            EMAIL_NOTIFICATION_CONTROLLER_CLASS,
+            lpparam.classLoader,
+            SHOW_SECURITY_CHANGED_NOTIFICATION_METHOD,
+            ACCOUNT_CLASS,
+            XC_MethodReplacement.DO_NOTHING
         );
     }
 
