@@ -9,11 +9,36 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.setBooleanField;
+import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public final class BypassGmailPolicy {
 
     private static final String SECURITY_REQUIRED_DIALOG_CLASS = "awh";
     private static final String ON_CREATE_DIALOG_METHOD = "onCreateDialog";
+
+    private static final String POLICY_CLASS = "com.android.emailcommon.provider.Policy";
+    private static final String NORMALIZE_METHOD = "d";
+    private static final String PASSWORD_MODE_FIELD = "b";
+    private static final String PASSWORD_MIN_LENGTH_FIELD = "c";
+    private static final String PASSWORD_MAX_FAILS_FIELD = "d";
+    private static final String PASSWORD_HISTORY_FIELD = "f";
+    private static final String PASSWORD_EXPIRATION_DAYS_FIELD = "e";
+    private static final String PASSWORD_COMPLEX_CHARS_FIELD = "g";
+    private static final String MAX_SCREEN_LOCK_TIME_FIELD = "h";
+    private static final String REQUIRE_REMOTE_WIPE_FIELD = "i";
+    private static final String REQUIRE_ENCRYPTION_FIELD = "j";
+    private static final String REQUIRE_ENCRYPTION_EXTERNAL_FIELD = "k";
+    private static final String REQUIRE_MANUAL_SYNC_ROAMING_FIELD = "l";
+    private static final String DONT_ALLOW_CAMERA_FIELD = "m";
+    private static final String DONT_ALLOW_ATTACHMENTS_FIELD = "n";
+    private static final String DONT_ALLOW_HTML_FIELD = "o";
+    private static final String MAX_ATTACHMENT_SIZE_FIELD = "p";
+    private static final String MAX_TEXT_TRUNCATION_SIZE_FIELD = "q";
+    private static final String MAX_HTML_TRUNCATION_SIZE_FIELD = "r";
+    private static final String MAX_EMAIL_LOOKBACK_FIELD = "s";
+    private static final String MAX_CALENDAR_LOOKBACK_FIELD = "t";
+    private static final String PASSWORD_RECOVERY_ENABLED_FIELD = "u";
 
     public static void initializeTweak(final XC_LoadPackage.LoadPackageParam lpparam) {
         findAndHookMethod(
@@ -37,6 +62,43 @@ public final class BypassGmailPolicy {
                         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick();
 
                         param.setResult(alertDialog);
+                    } catch (Exception ex) {
+                        XposedBridge.log(ex);
+                    }
+                }
+
+            }
+        );
+
+        findAndHookMethod(
+            POLICY_CLASS,
+            lpparam.classLoader,
+            NORMALIZE_METHOD,
+            new XC_MethodHook() {
+
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    try {
+                        setIntField(param.thisObject, PASSWORD_MODE_FIELD, 0);
+                        setIntField(param.thisObject, PASSWORD_MIN_LENGTH_FIELD, 0);
+                        setIntField(param.thisObject, PASSWORD_MAX_FAILS_FIELD, 0);
+                        setIntField(param.thisObject, PASSWORD_HISTORY_FIELD, 0);
+                        setIntField(param.thisObject, PASSWORD_EXPIRATION_DAYS_FIELD, 0);
+                        setIntField(param.thisObject, PASSWORD_COMPLEX_CHARS_FIELD, 0);
+                        setIntField(param.thisObject, MAX_SCREEN_LOCK_TIME_FIELD, 0);
+                        setBooleanField(param.thisObject, REQUIRE_REMOTE_WIPE_FIELD, false);
+                        setBooleanField(param.thisObject, REQUIRE_ENCRYPTION_FIELD, false);
+                        setBooleanField(param.thisObject, REQUIRE_ENCRYPTION_EXTERNAL_FIELD, false);
+                        setBooleanField(param.thisObject, REQUIRE_MANUAL_SYNC_ROAMING_FIELD, false);
+                        setBooleanField(param.thisObject, DONT_ALLOW_CAMERA_FIELD, false);
+                        setBooleanField(param.thisObject, DONT_ALLOW_ATTACHMENTS_FIELD, false);
+                        setBooleanField(param.thisObject, DONT_ALLOW_HTML_FIELD, false);
+                        setIntField(param.thisObject, MAX_ATTACHMENT_SIZE_FIELD, 0);
+                        setIntField(param.thisObject, MAX_TEXT_TRUNCATION_SIZE_FIELD, 0);
+                        setIntField(param.thisObject, MAX_HTML_TRUNCATION_SIZE_FIELD, 0);
+                        setIntField(param.thisObject, MAX_EMAIL_LOOKBACK_FIELD, 0);
+                        setIntField(param.thisObject, MAX_CALENDAR_LOOKBACK_FIELD, 0);
+                        setBooleanField(param.thisObject, PASSWORD_RECOVERY_ENABLED_FIELD, false);
                     } catch (Exception ex) {
                         XposedBridge.log(ex);
                     }
