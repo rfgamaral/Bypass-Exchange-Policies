@@ -53,7 +53,7 @@ public final class BypassGmailPolicy {
     private static final String SHOW_SECURITY_CHANGED_NOTIFICATION_METHOD = "c";
     private static final String SHOW_SECURITY_NEEDED_NOTIFICATION_METHOD = "b";
 
-    public static void initializeTweak(final XC_LoadPackage.LoadPackageParam lpparam) {
+    public static void initializeTweak(XC_LoadPackage.LoadPackageParam lpparam) {
         findAndHookMethod(
             SECURITY_REQUIRED_DIALOG_CLASS,
             lpparam.classLoader,
