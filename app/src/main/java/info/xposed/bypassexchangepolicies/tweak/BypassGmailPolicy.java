@@ -15,7 +15,7 @@ import static de.robv.android.xposed.XposedHelpers.setIntField;
 
 public final class BypassGmailPolicy {
 
-    private static final String SECURITY_REQUIRED_DIALOG_CLASS = "awk";
+    private static final String SECURITY_REQUIRED_DIALOG_CLASS = "azk";
     private static final String ON_CREATE_DIALOG_METHOD = "onCreateDialog";
 
     private static final String ACCOUNT_CLASS = "com.android.emailcommon.provider.Account";
@@ -49,7 +49,7 @@ public final class BypassGmailPolicy {
     private static final String SET_ACTIVE_POLICIES_METHOD = "c";
     private static final String IS_ACTIVE_ADMIN_METHOD = "e";
 
-    private static final String EMAIL_NOTIFICATION_CONTROLLER_CLASS = "aql";
+    private static final String EMAIL_NOTIFICATION_CONTROLLER_CLASS = "asw";
     private static final String SHOW_SECURITY_CHANGED_NOTIFICATION_METHOD = "c";
     private static final String SHOW_SECURITY_NEEDED_NOTIFICATION_METHOD = "b";
 
