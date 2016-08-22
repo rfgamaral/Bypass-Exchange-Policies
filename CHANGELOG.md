@@ -2,7 +2,7 @@
 
 #### 2016/08/22
 
- - Update Gmail hooks for v6.7.128801648.release (58383328).
+ - Update Gmail hooks for v6.7.128801648.release (58383328) by @mosclofri.
 
 #### 2016/07/01
 
