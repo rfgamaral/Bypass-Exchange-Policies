@@ -1,8 +1,10 @@
-# Version 1.0.1
+# Version 1.0.2
 
 #### 2016/08/22
 
  - Update Gmail hooks for v6.7.128801648.release (58383328) by @mosclofri.
+
+# Version 1.0.1
 
 #### 2016/07/01
 
