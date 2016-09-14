@@ -18,7 +18,7 @@ ext {
         ],
 
         plugin: [
-            gradleVersion: '2.1.2'
+            gradleVersion: '2.1.3'
         ],
 
         library: [
