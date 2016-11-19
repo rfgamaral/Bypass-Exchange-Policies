@@ -53,7 +53,6 @@
       <option name="m_ignoreLoopsWithoutConditions" value="false" />
     </inspection_tool>
     <inspection_tool class="ForLoopThatDoesntUseLoopVariable" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="GroovyAssignabilityCheck" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="HtmlTagCanBeJavadocTag" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="InnerClassMayBeStatic" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="InstanceMethodNamingConvention" enabled="true" level="INFO" enabled_by_default="true">
@@ -119,9 +118,6 @@
       <option name="m_regex" value="[a-z][A-Za-z\d]*" />
       <option name="m_minLength" value="1" />
       <option name="m_maxLength" value="32" />
-    </inspection_tool>
-    <inspection_tool class="PointlessBooleanExpression" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="m_ignoreExpressionsContainingConstants" value="true" />
     </inspection_tool>
     <inspection_tool class="PointlessIndexOfComparison" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="RedundantSuppression" enabled="true" level="WARNING" enabled_by_default="true" />
